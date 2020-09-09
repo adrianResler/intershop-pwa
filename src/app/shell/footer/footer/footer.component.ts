@@ -3,8 +3,8 @@ import { ChangeDetectionStrategy, Component, Inject, Input, OnChanges, OnInit, P
 import { TransferState } from '@angular/platform-browser';
 
 import { DISPLAY_VERSION } from 'ish-core/configurations/state-keys';
-import { CookieFacade } from 'ish-core/facades/cookie.facade';
 import { DeviceType } from 'ish-core/models/viewtype/viewtype.types';
+import { CookiesService } from 'ish-core/services/cookies/cookies.service';
 
 /**
  * Footer Component
@@ -26,7 +26,7 @@ export class FooterComponent implements OnInit, OnChanges {
   constructor(
     @Inject(PLATFORM_ID) private platformId: string,
     private transferState: TransferState,
-    private cookieFacade: CookieFacade
+    private cookiesService: CookiesService
   ) {}
 
   collapsed: boolean[] = [false, false, false, false, false, false];
@@ -45,7 +45,7 @@ export class FooterComponent implements OnInit, OnChanges {
 
   openCookieDialog() {
     return () => {
-      this.cookieFacade.openCookieDialog$.next();
+      this.cookiesService.openCookieDialog$.next();
     };
   }
 }

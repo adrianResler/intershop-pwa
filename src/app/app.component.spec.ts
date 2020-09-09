@@ -4,11 +4,10 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { MockComponent, MockDirective } from 'ng-mocks';
 import { Subject } from 'rxjs';
-import { instance, mock } from 'ts-mockito';
+import { anything, instance, mock, when } from 'ts-mockito';
 
 import { ServerHtmlDirective } from 'ish-core/directives/server-html.directive';
 import { AppFacade } from 'ish-core/facades/app.facade';
-import { CookieFacade } from 'ish-core/facades/cookie.facade';
 import { CookiesService } from 'ish-core/services/cookies/cookies.service';
 import { findAllIshElements } from 'ish-core/utils/dev/html-query-utils';
 
@@ -19,19 +18,17 @@ import { HeaderComponent } from './shell/header/header/header.component';
 
 let translate: TranslateService;
 
+// tslint:disable:no-intelligence-in-artifacts
 describe('App Component', () => {
   let fixture: ComponentFixture<AppComponent>;
   let component: AppComponent;
   let element: HTMLElement;
-  // tslint:disable-next-line:no-intelligence-in-artifacts
   let cookiesService: CookiesService;
-  let cookieFacade: CookieFacade;
-  let openCookieDialog$: Subject<boolean>;
 
   beforeEach(async(() => {
-    cookieFacade = mock(cookieFacade);
-    openCookieDialog$ = new Subject();
-    cookiesService = instance(mock(cookiesService));
+    cookiesService = mock(CookiesService);
+    when(cookiesService.get(anything())).thenReturn(undefined);
+    when(cookiesService.openCookieDialog$).thenReturn(new Subject());
 
     TestBed.configureTestingModule({
       declarations: [
@@ -44,10 +41,7 @@ describe('App Component', () => {
       imports: [NoopAnimationsModule, RouterTestingModule, TranslateModule.forRoot()],
       providers: [
         { provide: AppFacade, useFactory: () => instance(mock(AppFacade)) },
-        {
-          provide: CookieFacade,
-          useFactory: () => ({ openCookieDialog$, cookiesService } as Partial<CookieFacade>),
-        },
+        { provide: CookiesService, useFactory: () => instance(cookiesService) },
       ],
     }).compileComponents();
   }));

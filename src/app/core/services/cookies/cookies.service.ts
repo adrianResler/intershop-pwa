@@ -1,7 +1,7 @@
 import { isPlatformBrowser } from '@angular/common';
 import { ApplicationRef, Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { CookiesOptions, CookiesService as ForeignCookiesService } from 'ngx-utils-cookies-port';
-import { ReplaySubject, timer } from 'rxjs';
+import { ReplaySubject, Subject, timer } from 'rxjs';
 import { distinct, map, switchMap, take } from 'rxjs/operators';
 
 import { whenTruthy } from 'ish-core/utils/operators';
@@ -9,6 +9,8 @@ import { whenTruthy } from 'ish-core/utils/operators';
 @Injectable({ providedIn: 'root' })
 export class CookiesService {
   cookieLawSeen$ = new ReplaySubject<boolean>(1);
+
+  openCookieDialog$ = new Subject();
 
   constructor(
     private cookiesService: ForeignCookiesService,

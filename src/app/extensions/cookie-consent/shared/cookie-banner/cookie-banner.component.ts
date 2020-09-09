@@ -3,7 +3,7 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 
-import { CookieFacade } from 'ish-core/facades/cookie.facade';
+import { CookiesService } from 'ish-core/services/cookies/cookies.service';
 
 import { CookieBannerCookiedata } from '../../models/cookie-banner-cookiedata.model';
 import { CookieBannerOptions } from '../../models/cookie-banner-options.model';
@@ -34,17 +34,17 @@ export class CookieBannerComponent implements OnInit, OnDestroy {
     private modalService: NgbModal,
     private compiler: Compiler,
     private injector: Injector,
-    private cookieFacade: CookieFacade
+    private cookiesService: CookiesService
   ) {}
 
   ngOnInit() {
-    this.cookieFacade.openCookieDialog$.pipe(takeUntil(this.destroy$)).subscribe(() => {
+    this.cookiesService.openCookieDialog$.pipe(takeUntil(this.destroy$)).subscribe(() => {
       if (this.currentDialog) {
         this.currentDialog.dismiss();
       }
       this.showDialog();
     });
-    this.cookieData = JSON.parse(this.cookieFacade.cookiesService.get('cookie-consent') || 'null');
+    this.cookieData = JSON.parse(this.cookiesService.get('cookie-consent') || 'null');
     this.showBannerIfNeeded();
     this.initCookieLawSeen();
   }
@@ -56,7 +56,7 @@ export class CookieBannerComponent implements OnInit, OnDestroy {
 
   initCookieLawSeen() {
     if (this.cookieData?.enabledCookies.includes('tracking')) {
-      this.cookieFacade.cookiesService.cookieLawSeen$.next(true);
+      this.cookiesService.cookieLawSeen$.next(true);
     }
   }
 
@@ -105,7 +105,7 @@ export class CookieBannerComponent implements OnInit, OnDestroy {
   saveAndReload(enabledCookies: string[]) {
     this.deleteAllCookies();
     this.cookieData = { updatedAt: new Date().toISOString(), enabledCookies };
-    this.cookieFacade.cookiesService.put('cookie-consent', JSON.stringify(this.cookieData));
+    this.cookiesService.put('cookie-consent', JSON.stringify(this.cookieData));
     window.location.reload();
   }
 

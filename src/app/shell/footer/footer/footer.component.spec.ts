@@ -7,7 +7,7 @@ import { MockComponent, MockDirective } from 'ng-mocks';
 import { instance, mock } from 'ts-mockito';
 
 import { ServerHtmlDirective } from 'ish-core/directives/server-html.directive';
-import { CookieFacade } from 'ish-core/facades/cookie.facade';
+import { CookiesService } from 'ish-core/services/cookies/cookies.service';
 
 import { FooterComponent } from './footer.component';
 
@@ -15,15 +15,15 @@ describe('Footer Component', () => {
   let fixture: ComponentFixture<FooterComponent>;
   let element: HTMLElement;
   let component: FooterComponent;
-  let cookieFacade: CookieFacade;
+  let cookiesService: CookiesService;
 
   beforeEach(async(() => {
-    cookieFacade = mock(cookieFacade);
+    cookiesService = mock(cookiesService);
 
     TestBed.configureTestingModule({
       imports: [BrowserTransferStateModule, RouterTestingModule, TranslateModule.forRoot()],
       declarations: [FooterComponent, MockComponent(FaIconComponent), MockDirective(ServerHtmlDirective)],
-      providers: [{ provide: CookieFacade, useFactory: () => instance(cookieFacade) }],
+      providers: [{ provide: CookiesService, useFactory: () => instance(cookiesService) }],
     })
       .compileComponents()
       .then(() => {

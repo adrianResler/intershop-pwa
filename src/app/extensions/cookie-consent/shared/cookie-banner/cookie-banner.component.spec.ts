@@ -2,37 +2,29 @@ import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { MockDirective } from 'ng-mocks';
 import { Subject } from 'rxjs';
-import { instance, mock } from 'ts-mockito';
+import { anything, instance, mock, when } from 'ts-mockito';
 
 import { ServerHtmlDirective } from 'ish-core/directives/server-html.directive';
-import { CookieFacade } from 'ish-core/facades/cookie.facade';
 import { CookiesService } from 'ish-core/services/cookies/cookies.service';
 
 import { CookieBannerComponent } from './cookie-banner.component';
 
+// tslint:disable:no-intelligence-in-artifacts
 describe('Cookie Banner Component', () => {
   let fixture: ComponentFixture<CookieBannerComponent>;
   let element: HTMLElement;
   let component: CookieBannerComponent;
-  // tslint:disable-next-line:no-intelligence-in-artifacts
   let cookiesService: CookiesService;
-  let cookieFacade: CookieFacade;
-  let openCookieDialog$: Subject<boolean>;
 
   beforeEach(async(() => {
-    cookieFacade = mock(cookieFacade);
-    openCookieDialog$ = new Subject();
-    cookiesService = instance(mock(cookiesService));
+    cookiesService = mock(CookiesService);
+    when(cookiesService.get(anything())).thenReturn(undefined);
+    when(cookiesService.openCookieDialog$).thenReturn(new Subject());
 
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot()],
       declarations: [CookieBannerComponent, MockDirective(ServerHtmlDirective)],
-      providers: [
-        {
-          provide: CookieFacade,
-          useFactory: () => ({ openCookieDialog$, cookiesService } as Partial<CookieFacade>),
-        },
-      ],
+      providers: [{ provide: CookiesService, useFactory: () => instance(cookiesService) }],
     })
       .compileComponents()
       .then(() => {
