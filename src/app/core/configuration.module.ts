@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { OrganizationErrorHandler } from 'projects/organization-management/src/app/http-error/organization.error-handler';
 
 import { environment } from '../../environments/environment';
 
@@ -30,6 +31,7 @@ import { updatePasswordErrorHandler } from './utils/http-error/update-password.e
     { provide: SPECIAL_HTTP_ERROR_HANDLER, useClass: LoginUserErrorHandler, multi: true },
     { provide: SPECIAL_HTTP_ERROR_HANDLER, useValue: requestReminderErrorHandler, multi: true },
     { provide: SPECIAL_HTTP_ERROR_HANDLER, useValue: editPasswordErrorHandler, multi: true },
+    { provide: SPECIAL_HTTP_ERROR_HANDLER, useClass: OrganizationErrorHandler, multi: true },
   ],
 })
 export class ConfigurationModule {}
