@@ -1,36 +1,23 @@
 import { HttpErrorResponse, HttpEvent, HttpHandler, HttpRequest, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, NavigationEnd, Router } from '@angular/router';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { Router } from '@angular/router';
 import { Store, select } from '@ngrx/store';
 import { Observable, throwError, timer } from 'rxjs';
 import { catchError, concatMap, filter, first, map, switchMap, switchMapTo, tap, withLatestFrom } from 'rxjs/operators';
 
 import { ApiService } from 'ish-core/services/api/api.service';
-import { getDeviceType } from 'ish-core/store/core/configuration';
 import { selectQueryParam } from 'ish-core/store/core/router';
 import { loadBasketByAPIToken } from 'ish-core/store/customer/basket';
 import { loadOrderByAPIToken } from 'ish-core/store/customer/orders';
-import { getPGID, getUserAuthorized, loadUserByAPIToken, logoutUser } from 'ish-core/store/customer/user';
+import { getPGID, loadUserByAPIToken, logoutUser } from 'ish-core/store/customer/user';
 import { ApiTokenService } from 'ish-core/utils/api-token/api-token.service';
 import { whenTruthy } from 'ish-core/utils/operators';
-import { LoginModalComponent } from 'ish-shared/components/login/login-modal/login-modal.component';
 
 import { IdentityProvider } from './identity-provider.interface';
 
 @Injectable({ providedIn: 'root' })
 export class ICMIdentityProvider implements IdentityProvider {
-  private currentDialog: NgbModalRef;
-  private isMobile: boolean;
-
-  constructor(
-    private modalService: NgbModal,
-    private router: Router,
-    private store: Store,
-    private apiTokenService: ApiTokenService
-  ) {
-    store.pipe(select(getDeviceType), first()).subscribe(type => (this.isMobile = type === 'mobile'));
-  }
+  constructor(private router: Router, private store: Store, private apiTokenService: ApiTokenService) {}
 
   getCapabilities() {
     return {
@@ -91,51 +78,8 @@ export class ICMIdentityProvider implements IdentityProvider {
     });
   }
 
-  async triggerLogin(route: ActivatedRouteSnapshot) {
-    // first request should go to page
-    if (!this.router.navigated) {
-      return true;
-    }
-
-    // mobile view should not use modal
-    if (this.isMobile) {
-      return true;
-    }
-
-    // force page view by queryParam
-    if (route.queryParams.forcePageView) {
-      return true;
-    }
-
-    const component = (await import('../../../shared/components/login/login-modal/login-modal.component'))
-      .LoginModalComponent;
-
-    this.currentDialog = this.modalService.open(component, { centered: true, size: 'sm' });
-
-    const loginModalComponent = this.currentDialog.componentInstance as LoginModalComponent;
-    loginModalComponent.loginMessageKey = route.queryParamMap.get('messageKey');
-
-    // dialog closed
-    loginModalComponent.close.pipe(first()).subscribe(() => {
-      this.currentDialog.dismiss();
-    });
-
-    // navigated away with link on dialog
-    this.router.events
-      .pipe(
-        filter(event => event instanceof NavigationEnd),
-        first()
-      )
-      .subscribe(() => {
-        this.currentDialog.dismiss();
-      });
-
-    // login successful
-    this.store.pipe(select(getUserAuthorized), whenTruthy(), first()).subscribe(() => {
-      this.currentDialog.dismiss();
-    });
-
-    return false;
+  triggerLogin() {
+    return true;
   }
 
   triggerLogout() {
