@@ -84,7 +84,7 @@ export class Auth0IdentityProvider implements IdentityProvider {
             this.http
               .post(`${rest}/users/processtoken`, {
                 id_token: this.oauthService.getIdToken(),
-                options: ['UPDATE', 'CREATE_USER', 'CREATE_CUSTOMER'],
+                options: ['CREATE_USER', 'CREATE_CUSTOMER'],
               })
               .pipe(
                 tap(() => {
