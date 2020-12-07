@@ -12,11 +12,7 @@
 </ng-container>
 
 <ng-template #imageEnhanced>
-  <div
-    (deferLoad)="showImage = true"
-    class="enhanced-image-container defer-load"
-    [ngClass]="pagelet.stringParam('CSSClass')"
-  >
+  <div (deferLoad)="showImage = true" class="enhanced-image-container defer-load">
     <picture *ngIf="showImage" class="enhanced-image">
       <source
         *ngIf="pagelet.hasParam('ImageXS')"
@@ -40,9 +36,9 @@
         class="enhanced-image"
       />
     </picture>
-    <div class="enhanced-image-text">
-      <h1 *ngIf="pagelet.hasParam('Heading1')">{{ pagelet.stringParam('Heading1') }}</h1>
-      <h2 *ngIf="pagelet.hasParam('Heading2')">{{ pagelet.stringParam('Heading2') }}</h2>
+    <div class="enhanced-image-text" [ngClass]="pagelet.stringParam('CSSClass')">
+      <h1 class="bold" *ngIf="pagelet.hasParam('Heading1')">{{ pagelet.stringParam('Heading1') }}</h1>
+      <h4 *ngIf="pagelet.hasParam('Heading2')">{{ pagelet.stringParam('Heading2') }}</h4>
       <p
         *ngIf="pagelet.hasParam('Description')"
         class="hidden-xs"

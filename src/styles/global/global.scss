@@ -27,14 +27,38 @@ h3,
 .h3 {
   margin-top: $space-default;
   margin-bottom: $space-default;
-  text-transform: uppercase;
-
+  //text-transform: uppercase;
+  font-family: $font-family-regular;
   .header-note {
     font-family: $font-family-regular;
     font-size: $font-size-corporate;
     color: $text-color-quarternary;
     text-transform: none;
   }
+  &.bold {
+    font-family: $font-family-bold;
+  }
+}
+h1,
+.h1 {
+  font-size: 40px;
+}
+h2,
+.h2 {
+  font-size: 40px;
+}
+
+h3,
+.h3 {
+  font-size: 32px;
+}
+h4,
+.h4 {
+  font-size: 24px;
+}
+h5,
+.h5 {
+  font-size: 20px;
 }
 
 h4,
@@ -44,6 +68,9 @@ h4,
   margin-top: ($space-default * 2/3);
   margin-bottom: $space-default;
   font-family: $font-family-regular;
+  &.bold {
+    font-family: $font-family-bold;
+  }
 }
 
 a,

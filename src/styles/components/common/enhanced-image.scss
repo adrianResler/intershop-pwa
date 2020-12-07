@@ -6,17 +6,36 @@
   position: absolute;
   top: 30%;
   width: 100%;
+  padding: 20px;
   font-weight: bold;
   color: #fff;
   text-align: center;
-
-  h1 {
-    font-size: 60px;
+  .btn-primary {
+    background: #e74c39;
+    border-radius: 72px;
+  }
+  h1,
+  h4 {
+    margin-bottom: 38px;
     color: #fff;
   }
 
-  h2 {
-    color: #fff;
+  &.black {
+    color: #000;
+    h1,
+    h4 {
+      color: #000;
+    }
+  }
+
+  @media (min-width: $screen-xs-max) {
+    padding: 20px 165px;
+    &.left {
+      text-align: left;
+    }
+    &.right {
+      text-align: right;
+    }
   }
 
   @media (max-width: $screen-xs-max) {
@@ -25,8 +44,8 @@
       width: auto;
     }
 
-    h1 {
-      font-size: 30px;
-    }
+    // h1 {
+    //   font-size: 30px;
+    // }
   }
 }
