@@ -82,6 +82,7 @@ const routes: Routes = [
   },
   {
     path: 'checkout',
+    // TODO: Here I'll replace the CheckoutPageModule with SnCheckoutPageModule
     loadChildren: () => import('./checkout/checkout-page.module').then(m => m.CheckoutPageModule),
     data: {
       headerType: 'checkout',
