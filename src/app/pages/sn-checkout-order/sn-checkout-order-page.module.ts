@@ -8,7 +8,6 @@ import { SnCheckoutOrderComponent } from './sn-checkout-order/sn-checkout-order.
 @NgModule({
   imports: [SharedModule],
   declarations: [SnCheckoutOrderComponent, SnCheckoutOrderPageComponent],
-  exports: [],
 })
 export class SnCheckoutOrderPageModule {
   static component = SnCheckoutOrderPageComponent;

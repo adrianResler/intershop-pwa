@@ -30,14 +30,14 @@ describe('Sn Checkout Progress Bar Component', () => {
     expect(() => fixture.detectChanges()).not.toThrow();
   });
 
-  // TODO: Tests to fix once I'll create the order component
+  // TODO: Tests to fix once I'll create the right order component
   xit('should display 1 link (to receipe page) if step = 1 (order)', () => {
     component.step = 1;
     fixture.detectChanges();
     expect(element.querySelectorAll('li a')).toHaveLength(1);
   });
 
-  it('should not display any links if basket step = 5 (receipt)', () => {
+  it('should not display any links if basket step = 2 (receipt)', () => {
     component.step = 2;
     fixture.detectChanges();
     expect(element.querySelectorAll('li a')).toHaveLength(0);

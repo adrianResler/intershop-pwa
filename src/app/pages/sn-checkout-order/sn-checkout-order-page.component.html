@@ -1,1 +1,6 @@
-<p>sn-checkout-order-page works!</p>
+<div data-testing-id="sn-checkout-order-page">
+  <sn-checkout-order [order]="order$ | async" [user]="user$ | async"></sn-checkout-order>
+  <!-- <sn-checkout-order></sn-checkout-order> -->
+
+  <ish-loading *ngIf="loading$ | async"></ish-loading>
+</div>

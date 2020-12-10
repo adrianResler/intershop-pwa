@@ -29,7 +29,6 @@
 // STOREFRONT SPECIFIC IMPORTS
 
 @import 'global/fonts/roboto';
-@import 'global/fonts/proxima-nova';
 @import 'global/animations';
 @import 'global/icons';
 @import 'global/global';
@@ -89,3 +88,10 @@
 @import 'pages/productdetail/tacton';
 @import 'pages/productdetail/product-images';
 @import 'pages/productdetail/product-info';
+
+//
+// SHARKNINJA SPECIFIC IMPORTS
+@import 'global/fonts/proxima-nova';
+
+// checkout pages
+@import 'pages/sn-checkout/progress-bar';
