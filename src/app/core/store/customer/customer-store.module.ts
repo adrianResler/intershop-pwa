@@ -13,9 +13,9 @@ import { BasketAddressesEffects } from './basket/basket-addresses.effects';
 import { BasketItemsEffects } from './basket/basket-items.effects';
 import { BasketPaymentEffects } from './basket/basket-payment.effects';
 import { BasketPromotionCodeEffects } from './basket/basket-promotion-code.effects';
-import { BasketValidationEffects } from './basket/basket-validation.effects';
 import { BasketEffects } from './basket/basket.effects';
 import { basketReducer } from './basket/basket.reducer';
+import { SnBasketValidationEffects } from './basket/sn-basket-validation.effects';
 import { CustomerState } from './customer-store';
 import { OrdersEffects } from './orders/orders.effects';
 import { ordersReducer } from './orders/orders.reducer';
@@ -38,8 +38,8 @@ const customerEffects = [
   BasketItemsEffects,
   BasketPaymentEffects,
   BasketPromotionCodeEffects,
-  BasketValidationEffects,
   OrdersEffects,
+  SnBasketValidationEffects,
   UserEffects,
   AuthorizationEffects,
   OrganizationManagementEffects,
