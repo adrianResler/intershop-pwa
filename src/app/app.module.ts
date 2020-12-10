@@ -4,6 +4,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { COOKIE_CONSENT_VERSION } from 'ish-core/configurations/state-keys';
 import { CoreModule } from 'ish-core/core.module';
+import { SharedModule } from 'ish-shared/shared.module';
 
 import { environment } from '../environments/environment';
 
@@ -22,6 +23,7 @@ import { ShellModule } from './shell/shell.module';
     BrowserAnimationsModule,
     CoreModule,
     ShellModule,
+    SharedModule,
     AppRoutingModule,
     QuickorderRoutingModule,
     TactonRoutingModule,
