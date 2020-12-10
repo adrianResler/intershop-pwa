@@ -31,8 +31,6 @@ export class AppComponent implements OnInit, OnDestroy {
     this.deviceType$ = this.appFacade.deviceType$;
     this.wrapperClasses$ = this.appFacade.appWrapperClasses$;
     this.appFacade.headerType$.pipe(takeUntil(this.destroy$)).subscribe(type => {
-      console.log('type', type);
-
       if (type === 'checkout') {
         this.isCheckout = true;
       } else {
