@@ -42,3 +42,21 @@
 
   <ish-loading *ngIf="basketLoading$ | async"></ish-loading>
 </div>
+
+<!-- Payment section -->
+<div data-testing-id="checkout-payment-component">
+  <h1>{{ 'checkout.payment.pagetitle' | translate }}</h1>
+
+  <sn-checkout-payment
+    [basket]="basket$ | async"
+    [paymentMethods]="paymentMethods$ | async"
+    [priceType]="priceType$ | async"
+    [error]="basketError$ | async"
+    (updatePaymentMethod)="updateBasketPaymentMethod($event)"
+    (createPaymentInstrument)="createPaymentInstrument($event)"
+    (deletePaymentInstrument)="deletePaymentInstrument($event)"
+    (nextStep)="nextStep()"
+  ></sn-checkout-payment>
+
+  <ish-loading *ngIf="basketLoading$ | async"></ish-loading>
+</div>

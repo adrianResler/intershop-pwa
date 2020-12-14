@@ -7,6 +7,8 @@ import { AccountFacade } from 'ish-core/facades/account.facade';
 import { CheckoutFacade } from 'ish-core/facades/checkout.facade';
 import { BasketView } from 'ish-core/models/basket/basket.model';
 import { HttpError } from 'ish-core/models/http-error/http-error.model';
+import { PaymentInstrument } from 'ish-core/models/payment-instrument/payment-instrument.model';
+import { PaymentMethod } from 'ish-core/models/payment-method/payment-method.model';
 import { ShippingMethod } from 'ish-core/models/shipping-method/shipping-method.model';
 import { User } from 'ish-core/models/user/user.model';
 import { whenTruthy } from 'ish-core/utils/operators';
@@ -24,6 +26,8 @@ export class SnCheckoutOrderPageComponent implements OnInit, OnDestroy {
   addressesLoading$: Observable<boolean>;
   currentUser$: Observable<User>;
   shippingMethods$: Observable<ShippingMethod[]>;
+  paymentMethods$: Observable<PaymentMethod[]>;
+  priceType$: Observable<'gross' | 'net'>;
 
   nextStepRequested = false;
 
@@ -44,6 +48,8 @@ export class SnCheckoutOrderPageComponent implements OnInit, OnDestroy {
     this.addressesLoading$ = this.accountFacade.addressesLoading$;
     this.currentUser$ = this.accountFacade.user$;
     this.shippingMethods$ = this.checkoutFacade.eligibleShippingMethods$();
+    this.paymentMethods$ = this.checkoutFacade.eligiblePaymentMethods$();
+    this.priceType$ = this.checkoutFacade.priceType$;
 
     // determine if basket addresses are available at page start
     this.validBasketAddresses$ = this.basket$.pipe(
@@ -64,6 +70,25 @@ export class SnCheckoutOrderPageComponent implements OnInit, OnDestroy {
 
   updateBasketShippingMethod(shippingId: string) {
     this.checkoutFacade.updateBasketShippingMethod(shippingId);
+  }
+
+  updateBasketPaymentMethod(paymentName: string) {
+    this.checkoutFacade.setBasketPayment(paymentName);
+  }
+
+  createUserPaymentInstrument(instrument: PaymentInstrument) {
+    this.checkoutFacade.createBasketPayment(instrument, true);
+  }
+
+  createPaymentInstrument(body: { paymentInstrument: PaymentInstrument; saveForLater: boolean }) {
+    if (!body || !body.paymentInstrument) {
+      return;
+    }
+    this.checkoutFacade.createBasketPayment(body.paymentInstrument, body.saveForLater);
+  }
+
+  deletePaymentInstrument(instrument: PaymentInstrument) {
+    this.checkoutFacade.deleteBasketPayment(instrument);
   }
 
   /**
