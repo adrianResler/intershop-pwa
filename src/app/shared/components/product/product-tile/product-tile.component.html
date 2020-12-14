@@ -30,6 +30,7 @@
     <div *ngIf="configuration.displayPrice" class="price-container">
       <ish-product-price [product]="product" [showInformationalPrice]="true"></ish-product-price>
     </div>
+    <button [routerLink]="product | ishProductRoute: category" class="btn-more-info">More Info</button>
   </ng-template>
 
   <ish-product-variation-select
@@ -44,7 +45,7 @@
     >
   </ng-container>
 
-  <div class="product-tile-actions btn-group">
+  <!-- <div class="product-tile-actions btn-group">
     <ng-container *ishFeature="'tacton'; else standardInteractions">
       <ish-lazy-tacton-configure-product
         *ishIsTactonProduct="product; else standardInteractions"
@@ -88,5 +89,5 @@
         (productToBasket)="addToBasket()"
       ></ish-product-add-to-basket>
     </ng-template>
-  </div>
+  </div> -->
 </div>
