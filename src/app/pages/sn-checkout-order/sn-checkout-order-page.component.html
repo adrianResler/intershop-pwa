@@ -1,4 +1,5 @@
-<div data-testing-id="checkout-address-page">
+<!-- Address section -->
+<div data-testing-id="checkout-address-component">
   <ng-container *ngIf="basket$ | async as basket">
     <ng-container
       *ngIf="
@@ -25,4 +26,19 @@
   </ng-container>
 
   <ish-loading *ngIf="(basketLoading$ | async) || (addressesLoading$ | async)"></ish-loading>
+</div>
+
+<!-- Shipping section -->
+<div data-testing-id="checkout-shipping-component">
+  <h1>{{ 'checkout.shipping.pagetitle' | translate }}</h1>
+
+  <sn-checkout-shipping
+    [basket]="basket$ | async"
+    [shippingMethods]="shippingMethods$ | async"
+    [error]="basketError$ | async"
+    (updateShippingMethod)="updateBasketShippingMethod($event)"
+    (nextStep)="nextStep()"
+  ></sn-checkout-shipping>
+
+  <ish-loading *ngIf="basketLoading$ | async"></ish-loading>
 </div>

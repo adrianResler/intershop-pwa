@@ -7,6 +7,7 @@ import { AccountFacade } from 'ish-core/facades/account.facade';
 import { CheckoutFacade } from 'ish-core/facades/checkout.facade';
 import { BasketView } from 'ish-core/models/basket/basket.model';
 import { HttpError } from 'ish-core/models/http-error/http-error.model';
+import { ShippingMethod } from 'ish-core/models/shipping-method/shipping-method.model';
 import { User } from 'ish-core/models/user/user.model';
 import { whenTruthy } from 'ish-core/utils/operators';
 
@@ -22,6 +23,8 @@ export class SnCheckoutOrderPageComponent implements OnInit, OnDestroy {
   addressesError$: Observable<HttpError>;
   addressesLoading$: Observable<boolean>;
   currentUser$: Observable<User>;
+  shippingMethods$: Observable<ShippingMethod[]>;
+
   nextStepRequested = false;
 
   /**
@@ -40,6 +43,7 @@ export class SnCheckoutOrderPageComponent implements OnInit, OnDestroy {
     this.addressesError$ = this.accountFacade.addressesError$;
     this.addressesLoading$ = this.accountFacade.addressesLoading$;
     this.currentUser$ = this.accountFacade.user$;
+    this.shippingMethods$ = this.checkoutFacade.eligibleShippingMethods$();
 
     // determine if basket addresses are available at page start
     this.validBasketAddresses$ = this.basket$.pipe(
@@ -56,6 +60,10 @@ export class SnCheckoutOrderPageComponent implements OnInit, OnDestroy {
         takeUntil(this.destroy$)
       )
       .subscribe(() => this.router.navigate(['/basket']));
+  }
+
+  updateBasketShippingMethod(shippingId: string) {
+    this.checkoutFacade.updateBasketShippingMethod(shippingId);
   }
 
   /**
