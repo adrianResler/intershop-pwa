@@ -5,7 +5,7 @@ header {
 
   &::before {
     position: absolute;
-    top: 0;
+    // top: 0; Autor : Ranbir Singh, Change done for SHNI-4271
     left: 0;
     z-index: -1;
     width: 100%;

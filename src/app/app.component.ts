@@ -1,6 +1,7 @@
 import { isPlatformBrowser } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Inject, OnInit, PLATFORM_ID, ViewChild } from '@angular/core';
-import { Observable } from 'rxjs';
+import { ChangeDetectionStrategy, Component, Inject, OnDestroy, OnInit, PLATFORM_ID, ViewChild } from '@angular/core';
+import { Observable, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 import { AppFacade } from 'ish-core/facades/app.facade';
 import { DeviceType } from 'ish-core/models/viewtype/viewtype.types';
@@ -15,12 +16,13 @@ import { DeviceType } from 'ish-core/models/viewtype/viewtype.types';
   templateUrl: './app.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
   @ViewChild('cookie', { static: true })
   isBrowser: boolean;
   wrapperClasses$: Observable<string[]>;
   deviceType$: Observable<DeviceType>;
-
+  isCheckout = false;
+  private destroy$ = new Subject();
   constructor(private appFacade: AppFacade, @Inject(PLATFORM_ID) platformId: string) {
     this.isBrowser = isPlatformBrowser(platformId);
   }
@@ -28,5 +30,15 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.deviceType$ = this.appFacade.deviceType$;
     this.wrapperClasses$ = this.appFacade.appWrapperClasses$;
+    this.appFacade.headerType$.pipe(takeUntil(this.destroy$)).subscribe(type => {
+      if (type === 'checkout') {
+        this.isCheckout = true;
+      } else {
+        this.isCheckout = false;
+      }
+    });
+  }
+  ngOnDestroy() {
+    this.destroy$.next();
   }
 }

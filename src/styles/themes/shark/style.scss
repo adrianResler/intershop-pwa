@@ -11,3 +11,13 @@
 @import '../../main';
 
 // customizations
+.violator-banner-block {
+  text-align: center;
+  color: $color-inverse;
+  background-color: $color-dark;
+  padding: 15px 16px;
+  a {
+    color: $color-inverse;
+    text-decoration: underline;
+  }
+}
