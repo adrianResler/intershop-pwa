@@ -8,10 +8,10 @@
 
   .product-tile {
     position: relative;
-    text-align: center;
-
+    // text-align: center;
+    background-color: $white;
     img {
-      width: auto;
+      // width: auto; Autor: Ranbir, Changes done for SHNI-4166
       padding-bottom: 0;
     }
 
@@ -110,12 +110,17 @@
   a {
     &.product-title {
       display: block;
-      padding-top: $space-default;
+      // padding-top: $space-default;
       font-family: $font-family-condensedregular;
       font-size: $font-size-lg;
       color: $text-color-primary;
-      text-align: center;
+      // text-align: center;
       text-decoration: none !important;
+      min-height: 60px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      line-height: $font-size-lg;
+      padding-bottom: 20px;
     }
   }
 
