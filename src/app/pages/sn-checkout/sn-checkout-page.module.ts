@@ -24,12 +24,17 @@ const snCheckoutPageRoutes: Routes = [
         data: { checkoutStep: 2 },
         component: CheckoutReceiptPageModule.component,
       },
+      {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'order',
+      },
     ],
   },
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(snCheckoutPageRoutes), SharedModule],
+  imports: [RouterModule.forChild(snCheckoutPageRoutes), SharedModule, SnCheckoutOrderPageModule],
   declarations: [SnCheckoutPageComponent, SnCheckoutProgressBarComponent],
 })
 export class SnCheckoutPageModule {}

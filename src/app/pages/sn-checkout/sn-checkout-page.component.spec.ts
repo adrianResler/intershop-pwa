@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SnCheckoutPageComponent } from './sn-checkout-page.component';
 
+// TODO: To fix once sn-checkout-page component implemented
 describe.skip('Sn Checkout Page Component', () => {
   let component: SnCheckoutPageComponent;
   let fixture: ComponentFixture<SnCheckoutPageComponent>;
