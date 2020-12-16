@@ -9,7 +9,7 @@ import {
   Output,
   SimpleChanges,
 } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { FormlyFormOptions } from '@ngx-formly/core';
 import { Subject } from 'rxjs';
@@ -37,7 +37,9 @@ export class SnCheckoutPaymentComponent implements OnInit, OnChanges, OnDestroy 
   @Input() paymentMethods: PaymentMethod[];
   @Input() priceType: 'gross' | 'net';
   @Input() error: HttpError;
+  @Input() submitting: boolean;
 
+  @Output() createOrder = new EventEmitter<void>();
   @Output() updatePaymentMethod = new EventEmitter<string>();
   @Output() createPaymentInstrument = new EventEmitter<{
     paymentInstrument: PaymentInstrument;
@@ -45,6 +47,9 @@ export class SnCheckoutPaymentComponent implements OnInit, OnChanges, OnDestroy 
   }>();
   @Output() deletePaymentInstrument = new EventEmitter<PaymentInstrument>();
   @Output() nextStep = new EventEmitter<void>();
+
+  form: FormGroup;
+  submitted = false;
 
   paymentForm: FormGroup;
   model = {};
@@ -85,11 +90,32 @@ export class SnCheckoutPaymentComponent implements OnInit, OnChanges, OnDestroy 
         this.updatePaymentMethod.emit(id);
       });
 
+    // create t&c form
+    this.form = new FormGroup({
+      termsAndConditions: new FormControl(false, Validators.pattern('true')),
+    });
+
     // if page is shown after cancelled/faulty redirect determine error message variable
     this.route.queryParamMap.pipe(take(1), takeUntil(this.destroy$)).subscribe(params => {
       const redirect = params.get('redirect');
       this.redirectStatus = redirect;
     });
+  }
+
+  /**
+   * sends an event to submit order
+   */
+  submitOrder() {
+    if (this.form.invalid) {
+      this.submitted = true;
+      markAsDirtyRecursive(this.form);
+      return;
+    }
+    this.createOrder.emit();
+  }
+
+  get formDisabled() {
+    return this.form.invalid && this.submitted;
   }
 
   get parameterForm(): FormGroup {
