@@ -92,6 +92,13 @@ export class SnCheckoutOrderPageComponent implements OnInit, OnDestroy {
   }
 
   /**
+   * creates an order and routes to receipt page in case of success
+   */
+  onCreateOrder() {
+    this.checkoutFacade.continue(2);
+  }
+
+  /**
    * Validates the basket and jumps to the next checkout step (Shipping)
    * if an issue with the anonymous user address leads to a basket validation error checkout-address page is shown
    */

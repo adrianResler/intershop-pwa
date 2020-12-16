@@ -1,0 +1,5 @@
+<div data-testing-id="checkout-receipt-page">
+  <sn-checkout-receipt [order]="order$ | async" [user]="user$ | async"></sn-checkout-receipt>
+
+  <ish-loading *ngIf="loading$ | async"></ish-loading>
+</div>

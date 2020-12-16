@@ -3,8 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { SharedModule } from 'ish-shared/shared.module';
 
-import { CheckoutReceiptPageModule } from '../checkout-receipt/checkout-receipt-page.module';
 import { SnCheckoutOrderPageModule } from '../sn-checkout-order/sn-checkout-order-page.module';
+import { SnCheckoutReceiptPageModule } from '../sn-checkout-receipt/sn-checkout-receipt-page.module';
 
 import { SnCheckoutPageComponent } from './sn-checkout-page.component';
 import { SnCheckoutProgressBarComponent } from './sn-checkout-progress-bar/sn-checkout-progress-bar.component';
@@ -22,7 +22,7 @@ const snCheckoutPageRoutes: Routes = [
       {
         path: 'receipt',
         data: { checkoutStep: 2 },
-        component: CheckoutReceiptPageModule.component,
+        component: SnCheckoutReceiptPageModule.component,
       },
       {
         path: '',

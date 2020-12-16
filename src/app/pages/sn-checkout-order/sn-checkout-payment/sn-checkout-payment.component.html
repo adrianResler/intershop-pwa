@@ -176,33 +176,37 @@
       </ng-template>
     </form>
   </div>
+
   <!-- basket summary -->
   <div class="col-md-12 col-lg-4 order-summary">
     <h2>{{ 'checkout.order_details.heading' | translate }}</h2>
 
-    <ish-basket-promotion-code [toast]="false"></ish-basket-promotion-code>
-
-    <ish-basket-address-summary [basket]="basket"></ish-basket-address-summary>
-    <ish-basket-items-summary [basket]="basket"></ish-basket-items-summary>
-
     <div class="cost-summary">
       <ish-basket-cost-summary [totals]="basket.totals"></ish-basket-cost-summary>
 
+      <form [formGroup]="form">
+        <ish-checkbox
+          [form]="form"
+          controlName="termsAndConditions"
+          [errorMessages]="{ pattern: 'checkout.tac.error.tip' }"
+        >
+          <span
+            [ishServerHtml]="'checkout.tac.text' | translate: { '0': 'page://page.termsAndConditions.pagelet2-Page' }"
+          ></span>
+        </ish-checkbox>
+      </form>
+
       <button
         class="btn btn-lg btn-block btn-primary"
-        id="checkoutBtn"
         type="button"
-        [disabled]="nextDisabled"
-        (click)="goToNextStep()"
+        [disabled]="formDisabled || submitting"
+        (click)="submitOrder()"
       >
-        {{ 'checkout.button.label' | translate }}
+        <ng-container *ngIf="submitting">
+          <fa-icon [icon]="['fas', 'spinner']" [spin]="true" class="pr-3"></fa-icon>
+        </ng-container>
+        {{ 'checkout.order_review.send.button' | translate }}
       </button>
     </div>
-    <!-- Privacy policy link -->
-    <span
-      [ishServerHtml]="
-        'checkout.widget.security_privacy_policy.link' | translate: { '0': 'page://page.privacyPolicy.pagelet2-Page' }
-      "
-    ></span>
   </div>
 </div>
