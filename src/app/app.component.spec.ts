@@ -7,10 +7,10 @@ import { instance, mock } from 'ts-mockito';
 import { AppFacade } from 'ish-core/facades/app.facade';
 import { findAllCustomElements } from 'ish-core/utils/dev/html-query-utils';
 import { CookiesBannerComponent } from 'ish-shell/application/cookies-banner/cookies-banner.component';
+import { SnHeaderComponent } from 'ish-shell/sn-header/sn-header/sn-header.component';
 
 import { AppComponent } from './app.component';
 import { FooterComponent } from './shell/footer/footer/footer.component';
-import { HeaderComponent } from './shell/header/header/header.component';
 
 let translate: TranslateService;
 
@@ -25,7 +25,7 @@ describe('App Component', () => {
         AppComponent,
         MockComponent(CookiesBannerComponent),
         MockComponent(FooterComponent),
-        MockComponent(HeaderComponent),
+        MockComponent(SnHeaderComponent),
       ],
       imports: [RouterTestingModule, TranslateModule.forRoot()],
       providers: [{ provide: AppFacade, useFactory: () => instance(mock(AppFacade)) }],
@@ -50,6 +50,6 @@ describe('App Component', () => {
   });
 
   it('should render header component on page', () => {
-    expect(findAllCustomElements(element)).toContain('ish-header');
+    expect(findAllCustomElements(element)).toContain('sn-header');
   });
 });

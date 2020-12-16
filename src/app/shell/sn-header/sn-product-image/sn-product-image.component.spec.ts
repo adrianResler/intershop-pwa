@@ -3,12 +3,12 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 import { Product } from 'ish-core/models/product/product.model';
 
-import { ProductImageComponent } from './product-image.component';
+import { SnProductImageComponent } from './sn-product-image.component';
 
-describe('Product Image Component', () => {
-  let component: ProductImageComponent;
+describe.skip('Sn Product Image Component', () => {
+  let component: SnProductImageComponent;
   let element: HTMLElement;
-  let fixture: ComponentFixture<ProductImageComponent>;
+  let fixture: ComponentFixture<SnProductImageComponent>;
   let product: Product;
   let translate: TranslateService;
   beforeEach(async () => {
@@ -16,7 +16,7 @@ describe('Product Image Component', () => {
     product.name = 'Lenco';
     product.images = [
       {
-        name: 'front XXX',
+        name: 'front S',
         type: 'Image',
         imageActualHeight: 110,
         imageActualWidth: 110,
@@ -47,7 +47,7 @@ describe('Product Image Component', () => {
       },
     ];
     await TestBed.configureTestingModule({
-      declarations: [ProductImageComponent],
+      declarations: [SnProductImageComponent],
       imports: [TranslateModule.forRoot()],
     }).compileComponents();
   });
@@ -57,7 +57,7 @@ describe('Product Image Component', () => {
     translate.setDefaultLang('en');
     translate.use('en');
     translate.set('product.image.text.alttext', 'product photo');
-    fixture = TestBed.createComponent(ProductImageComponent);
+    fixture = TestBed.createComponent(SnProductImageComponent);
     component = fixture.componentInstance;
     component.showImage = true;
     component.imageType = 'S';
@@ -70,20 +70,20 @@ describe('Product Image Component', () => {
     expect(element).toBeTruthy();
     expect(() => fixture.detectChanges()).not.toThrow();
   });
-  // TODO ask about these tests
-  it('should render N/A image when images is not available XXX', () => {
+
+  it('should render N/A image when images is not available', () => {
     component.product.images = [];
     fixture.detectChanges();
     expect(element.querySelector('img').getAttribute('src')).toBe('/assets/img/not_available.png');
   });
 
-  it('should render img tag when imageView is not available XXX', () => {
+  it('should render img tag when imageView is not available', () => {
     component.ngOnChanges();
     fixture.detectChanges();
     expect(element.querySelector('img').getAttribute('data-type')).toBe(component.imageType);
   });
 
-  it('should render img tag for S size and for image view front XXX', () => {
+  it('should render img tag for S size and for image view front', () => {
     component.imageType = 'S';
     component.imageView = 'front';
     component.ngOnChanges();
@@ -91,7 +91,7 @@ describe('Product Image Component', () => {
     expect(element.querySelector('img').getAttribute('data-type')).toBe(component.imageType);
   });
 
-  it('should render img tag for L size and for image view front XXX', () => {
+  it('should render img tag for L size and for image view front', () => {
     component.imageType = 'L';
     component.imageView = 'front';
     component.ngOnChanges();
@@ -99,7 +99,7 @@ describe('Product Image Component', () => {
     expect(element.querySelector('img').getAttribute('data-type')).toBe(component.imageType);
   });
 
-  it('should render N/A image when image source is not available XXX', () => {
+  it('should render N/A image when image source is not available', () => {
     product.images = [
       {
         name: 'front S',
@@ -116,32 +116,32 @@ describe('Product Image Component', () => {
     expect(element.querySelector('img').getAttribute('src')).toBe('/assets/img/not_available.png');
   });
 
-  describe('image alt attibute XXX', () => {
-    it('should render if altText set as input parameter XXX', () => {
+  describe('image alt attibute', () => {
+    it('should render if altText set as input parameter', () => {
       component.altText = 'test';
       fixture.detectChanges();
       expect(element.querySelector('img').getAttribute('alt')).toBe('test');
     });
 
-    it('should render default text if product information is still undefined XXX', () => {
+    it('should render default text if product information is still undefined', () => {
       component.product = undefined;
       fixture.detectChanges();
       expect(element.querySelector('img').getAttribute('alt')).toBe(' product photo');
     });
 
-    it('should show product name when product name available XXX', () => {
+    it('should show product name when product name available', () => {
       fixture.detectChanges();
       expect(element.querySelector('img').getAttribute('alt')).toBe('Lenco product photo');
     });
 
-    it('should show product sku when product name not available XXX', () => {
+    it('should show product sku when product name not available', () => {
       product.name = undefined;
       product.sku = '1234';
       fixture.detectChanges();
       expect(element.querySelector('img').getAttribute('alt')).toBe('1234 product photo');
     });
 
-    it('should append imageView when image view is available and altText parameter not set XXX', () => {
+    it('should append imageView when image view is available and altText parameter not set', () => {
       component.imageView = 'front';
       component.ngOnChanges();
       fixture.detectChanges();
