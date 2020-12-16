@@ -1,0 +1,12 @@
+<ng-container [ngSwitch]="headerType$ | async">
+  <sn-header-simple *ngSwitchCase="'simple'"></sn-header-simple>
+  <sn-header-checkout *ngSwitchCase="'checkout'"></sn-header-checkout>
+
+  <ng-container *ngSwitchDefault>
+    <sn-header-default
+      [isSticky]="isSticky$ | async"
+      [deviceType]="deviceType$ | async"
+      [reset]="reset$ | async"
+    ></sn-header-default>
+  </ng-container>
+</ng-container>
